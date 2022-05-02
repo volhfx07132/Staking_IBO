@@ -1046,7 +1046,6 @@ contract DALDALPool is
             _rewardTokens.length == _rewardPerBlock.length,
             "Mismatch length"
         );
-
         require(address(_stakedToken) != address(0),"Invalid address");
         require(address(_feeCollector) != address(0),"Invalid address");
         require(address(_admin) != address(0),"Invalid address");
@@ -1107,17 +1106,15 @@ contract DALDALPool is
     
     function enterStakeUser(uint256 _amount) internal returns(bool success) {
         UserStake memory currentStake;
-    
         currentStake.addr = msg.sender;
         currentStake.amount = _amount;
         currentStake.startStakeBlock = block.number;
         currentStake.endStakeBlock = block.number + lockingDuration;
-    
+        // push staking detail to mapping staking detail
         stakeDetails[msg.sender].push(currentStake);
-
         return true;
     }
-    
+    // Get/imcrement/counts number staker to join to stake in Dapp
     function getUserStakedCount(address _user) 
         public 
         view
@@ -1129,7 +1126,7 @@ contract DALDALPool is
         }
         return numStakes;
     }
-    
+    // Get array for stake => (startStale, endState, amount)
     function getStakedSchedule(address _user) 
         public
         view
