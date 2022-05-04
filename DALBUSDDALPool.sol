@@ -1,5 +1,4 @@
-//0xb05d8707142fF3e52bA2F610D603F22b638116Ec
-
+// 0xB801D820852010B46bCbd2c85E9cde07052FE17A
 /**
  *Submitted for verification at BscScan.com on 2022-01-03
 */
@@ -165,7 +164,8 @@ library SafeMath {
 }
 
 // File: contracts/Math.sol
-//pragma solidity 0.6.12;
+
+// pragma solidity ^0.6.0;
 
 /**
  * @dev Standard math utilities missing in the Solidity language.
@@ -197,7 +197,7 @@ library Math {
 
 // File: contracts/Context.sol
 
-//pragma solidity 0.6.12;
+// pragma solidity ^0.6.0;
 
 /*
  * @dev Provides information about the current execution context, including the
@@ -226,7 +226,7 @@ contract Context {
 
 // File: contracts/IERC20.sol
 
-// pragma solidity 0.6.12;
+// pragma solidity ^0.6.0;
 
 /**
  * @dev Interface of the ERC20 standard as defined in the EIP.
@@ -317,7 +317,7 @@ interface IERC20 {
 
 // File: contracts/Address.sol
 
-// pragma solidity 0.6.12;
+// pragma solidity ^0.6.2;
 
 /**
  * @dev Collection of functions related to the address type
@@ -389,7 +389,7 @@ library Address {
 
 // File: contracts/ERC20.sol
 
-// pragma solidity 0.6.12;
+// pragma solidity ^0.6.0;
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -839,7 +839,7 @@ contract Ownable is Context {
     }
 }
 
-// pragma solidity 0.6.12;
+// pragma solidity >=0.6.0 <0.8.0;
 
 /**
  * @dev Contract module that helps prevent reentrant calls to a function.
@@ -904,10 +904,10 @@ abstract contract ReentrancyGuard {
 
 pragma solidity 0.6.12;
 
-contract DALDALPool is
+contract DALBUSDDALPool is
     Ownable,
     ReentrancyGuard,
-    ERC20("DAL DAL Pool", "DAL-DAL")
+    ERC20("DALBUSD DAL Pool", "DALBUSD-DAL")
 {
     using SafeMath for uint256;
 
@@ -1170,6 +1170,7 @@ contract DALDALPool is
                 delete stakeDetails[msg.sender][i];
             }
         }
+        
         return claimAmount;
     }
     
@@ -1181,7 +1182,7 @@ contract DALDALPool is
         require(poolStakingStatus == true, 'Pool is not ready');
         UserInfo storage user = userInfo[msg.sender];
         require(stakingBlock <= block.number, "Staking has not started");
-        
+
         // GGG
         // require(stakingEndBlock >= block.number, "Staking has ended");
         
@@ -1518,6 +1519,8 @@ contract DALDALPool is
 
     }
 
+
+
     /**
      * @notice It allows the admin to update staking block
      * @dev This function is only callable by owner.
@@ -1527,9 +1530,7 @@ contract DALDALPool is
         uint256 _startStakingBlock,
         uint256 _endStakingBlock
     ) external onlyOwner {
-        
         //require(block.number < stakingBlock, "Staking has started");
-        
         require(
             _startStakingBlock <= startBlock,
             "Staking block exceeds start block"
@@ -1568,10 +1569,8 @@ contract DALDALPool is
         external
         onlyOwner
     {
-        //GGG
-        // Be carefull
+        // GGG
         //require(block.number < unStakingBlock, "Unstaking has started");
-        
         
         //require(_startUnStakingBlock >= bonusEndBlock, "Unstaking block precedes end block");
         require(
@@ -1620,7 +1619,6 @@ contract DALDALPool is
                 .div(PRECISION_FACTOR[rewardTokens[i]])
                 .sub(user.rewardDebt[rewardTokens[i]]);
             }
-            // get pending reward token for
             return (userPendingRewards, rewardTokens);
         } else {
             for (uint256 i = 0; i < rewardTokens.length; i++) {
